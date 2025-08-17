@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Buy Me 10 CHF in Monero 💸</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ responsive scaling -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     body {
@@ -10,37 +11,41 @@
       color: #eee;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 20px; /* smaller padding for mobile */
+      margin: 0;
     }
     h1 {
       color: #00ffcc;
+      font-size: 1.8rem;
     }
     .warning {
       background: #ff4444;
       color: white;
-      padding: 15px;
+      padding: 12px;
       border-radius: 10px;
       font-weight: bold;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+      font-size: 0.95rem;
     }
     a {
       display: inline-block;
       margin-top: 20px;
-      padding: 12px 24px;
+      padding: 12px 20px;
       background: #00ffcc;
       color: #121212;
       font-weight: bold;
       border-radius: 10px;
       text-decoration: none;
       transition: 0.2s;
+      font-size: 1rem;
     }
     a:hover {
       background: #00cc99;
       transform: scale(1.05);
     }
     #qrcode {
-      margin-top: 30px;
+      margin-top: 25px;
     }
     .card {
       background: #1e1e1e;
@@ -48,11 +53,13 @@
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
       display: inline-block;
-      margin-top: 30px;
+      margin-top: 25px;
+      max-width: 100%; /* prevent overflow */
     }
     .wallet-links {
       margin-top: 15px;
-      font-size: 14px;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
     }
     .wallet-links a {
       color: #00ffcc;
@@ -63,6 +70,14 @@
     }
     .wallet-links a:hover {
       color: #00cc99;
+    }
+
+    /* ✅ Mobile-friendly adjustments */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      .card { width: 100%; padding: 15px; }
+      #qrcode canvas { width: 150px !important; height: 150px !important; }
+      a { width: 90%; font-size: 1rem; }
     }
   </style>
 </head>
