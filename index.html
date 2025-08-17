@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Buy Me 10 CHF in Monero 💸</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body {
+      background-color: #121212;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #00ffcc;
+    }
+    .warning {
+      background: #ff4444;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #00ffcc;
+      color: #121212;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    a:hover {
+      background: #00cc99;
+      transform: scale(1.05);
+    }
+    #qrcode {
+      margin-top: 30px;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+      display: inline-block;
+      margin-top: 30px;
+    }
+    .wallet-links {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .wallet-links a {
+      color: #00ffcc;
+      text-decoration: underline;
+      background: none;
+      padding: 0;
+      margin: 0 5px;
+    }
+    .wallet-links a:hover {
+      color: #00cc99;
+    }
+  </style>
+</head>
+<body>
+  <div class="warning">
+    ⚠️ You need a Monero wallet app and at least <strong>10 CHF worth of Monero</strong> to pay!  
+  </div>
+
+  <h1>💸 Begging Station 💸</h1>
+  <p>Send me exactly <strong>10 CHF</strong> in Monero, pretty please 🙏</p>
+  
+  <div class="wallet-links">
+    Download a Monero wallet:  
+    <a href="https://www.getmonero.org/downloads/" target="_blank">Desktop</a> | 
+    <a href="https://play.google.com/store/apps/details?id=com.m2049r.xmrwallet" target="_blank">Android</a> | 
+    <a href="https://apps.apple.com/us/app/cake-wallet-for-monero-xmr/id1334702542" target="_blank">iOS</a>
+  </div>
+
+  <div class="card">
+    <p id="price">Loading XMR price...</p>
+    <p id="amount"></p>
+    <a id="payLink" href="#">Pay with Monero 🚀</a>
+    <div id="qrcode"></div>
+  </div>
+
+  <script>
+    const address = "YOUR_MONERO_ADDRESS_HERE";
+
+    async function loadPrice() {
+      try {
+        let res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=chf");
+        let data = await res.json();
+        let price = data.monero.chf;
+        document.getElementById("price").innerText = "1 XMR = " + price + " CHF";
+
+        let xmrAmount = (10 / price).toFixed(6);
+        document.getElementById("amount").innerText = "10 CHF ≈ " + xmrAmount + " XMR";
+
+        let uri = `monero:${address}?tx_amount=${xmrAmount}&tx_description=Begging%20Fund`;
+        document.getElementById("payLink").href = uri;
+
+        document.getElementById("qrcode").innerHTML = "";
+        new QRCode(document.getElementById("qrcode"), {
+          text: uri,
+          width: 200,
+          height: 200,
+          colorDark: "#00ffcc",
+          colorLight: "#121212",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } catch (e) {
+        document.getElementById("price").innerText = "Error loading price 😭";
+      }
+    }
+    loadPrice();
+  </script>
+</body>
+</html>
